@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 
 # 连接到SQLite数据库
-conn = sqlite3.connect('backtest_results.db')
+conn = sqlite3.connect('strategy/backtest/backtest_results.db')
 
 # 提取订单数据
 orders_df = pd.read_sql_query("SELECT * FROM ma_crossover_backtest_user_test_orders", conn)
