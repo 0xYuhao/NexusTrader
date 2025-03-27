@@ -80,6 +80,7 @@ class BinancePublicConnector(PublicConnector):
             msgbus=msgbus,
             api_client=BinanceApiClient(
                 testnet=account_type.is_testnet,
+                recv_window=60000,
             ),
             task_manager=task_manager,
             rate_limit=rate_limit,
@@ -398,6 +399,7 @@ class BinancePrivateConnector(PrivateConnector):
                 api_key=exchange.api_key,
                 secret=exchange.secret,
                 testnet=account_type.is_testnet,
+                recv_window=60000,
             ),
             cache=cache,
             msgbus=msgbus,

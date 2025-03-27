@@ -22,6 +22,7 @@ class BinanceApiClient(ApiClient):
         secret: str = None,
         testnet: bool = False,
         timeout: int = 10,
+        recv_window: int = 60000,
     ):
         super().__init__(
             api_key=api_key,
@@ -37,6 +38,7 @@ class BinanceApiClient(ApiClient):
             self._headers["X-MBX-APIKEY"] = api_key
         
         self._testnet = testnet
+        self._recv_window = recv_window
         self._order_decoder = msgspec.json.Decoder(BinanceOrder)
         self._spot_account_decoder = msgspec.json.Decoder(BinanceSpotAccountInfo)
         self._futures_account_decoder = msgspec.json.Decoder(BinanceFuturesAccountInfo)
@@ -68,6 +70,7 @@ class BinanceApiClient(ApiClient):
         payload = payload or {}
         if required_timestamp:
             payload["timestamp"] = self._clock.timestamp_ms()
+            payload["recvWindow"] = self._recv_window
         payload = urlencode(payload)
 
         if signed:

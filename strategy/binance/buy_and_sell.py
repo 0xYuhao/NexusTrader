@@ -1,4 +1,5 @@
 from decimal import Decimal
+import time
 
 from nexustrader.constants import settings
 from nexustrader.config import Config, PublicConnectorConfig, PrivateConnectorConfig, BasicConfig
@@ -11,9 +12,10 @@ from nexustrader.core.log import SpdLog
 
 SpdLog.initialize(level="DEBUG", std_level="ERROR", production_mode=True)
 
-
 BINANCE_API_KEY = settings.BINANCE.FUTURE.TESTNET_1.API_KEY
 BINANCE_SECRET = settings.BINANCE.FUTURE.TESTNET_1.SECRET
+# print("BINANCE_API_KEY: ", BINANCE_API_KEY)
+# print("BINANCE_SECRET: ", BINANCE_SECRET)
 
 
 
@@ -84,7 +86,7 @@ config = Config(
 engine = Engine(config)
 
 if __name__ == "__main__":
-    try:
+    try: 
         engine.start()
     finally:
         engine.dispose()
