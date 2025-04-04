@@ -32,6 +32,7 @@ class Demo(Strategy):
         self.data_ready = DataReady(symbols=self.symbols)
         self.prev_target = defaultdict(Decimal)
         self.orders = {}
+        print("custum_signal init")
     
     def on_start(self):
         self.subscribe_bookl1(symbols=self.symbols)
@@ -62,6 +63,7 @@ class Demo(Strategy):
         
     def on_custom_signal(self, signal):
         signal = orjson.loads(signal)
+        print("custum_signal on_custom_signal", signal)
         for pos in signal:
             if not self.data_ready.ready:
                 self.log.info("Data not ready, skip")
@@ -75,8 +77,9 @@ class Demo(Strategy):
             
             target_position = pos["position"] * self.market(symbol).precision.amount * self.multiplier
             target_position = self.amount_to_precision(symbol, target_position)
-            
+            print("custum_signal on_custom_signal", symbol, target_position)
             uuid = self.orders.get(symbol, None)
+            print("custum_signal on_custom_signal", symbol, uuid)
 
             if uuid:
                 order = self.cache.get_order(uuid)

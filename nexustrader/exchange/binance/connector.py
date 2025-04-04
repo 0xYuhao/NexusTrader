@@ -422,6 +422,7 @@ class BinancePrivateConnector(PrivateConnector):
         )
 
     async def _init_account_balance(self):
+        print("init_binance_account_balance")
         if (
             self._account_type.is_spot
             or self._account_type.is_isolated_margin_or_margin
@@ -438,7 +439,9 @@ class BinancePrivateConnector(PrivateConnector):
         elif self._account_type.is_portfolio_margin:
             # TODO: Implement portfolio margin account balance. it is not supported now.
             pass
+        print(f"账户类型: {self._account_type}, 余额数据: {res.parse_to_balances()}")
         self._cache._apply_balance(self._account_type, res.parse_to_balances())
+        
 
         if self._account_type.is_linear or self._account_type.is_inverse:
             for position in res.positions:
