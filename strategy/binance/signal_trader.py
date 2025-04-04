@@ -21,6 +21,8 @@ SpdLog.initialize(level="INFO", std_level="INFO", production_mode=True)
 
 BINANCE_API_KEY = settings.BINANCE.FUTURE.TESTNET_1.API_KEY
 BINANCE_SECRET = settings.BINANCE.FUTURE.TESTNET_1.SECRET
+# 杠杆倍率
+LEVERAGE = 10
 
 context = Context()
 socket = context.socket(zmq.SUB)
@@ -368,9 +370,7 @@ class SignalTrader(Strategy):
             position_ratio = (importance / 10) * 1
             
             # 计算可用资金
-            # 乘以杠杆倍率，假设杠杆为5倍
-            leverage = 10
-            usable_usdt = usdt_balance * Decimal(str(position_ratio)) * Decimal(str(leverage))
+            usable_usdt = usdt_balance * Decimal(str(position_ratio)) * Decimal(str(LEVERAGE))
             
             # 计算购买数量
             amount = usable_usdt / Decimal(str(current_price))
